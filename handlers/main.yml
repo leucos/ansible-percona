@@ -1,0 +1,3 @@
+ - name: Restart percona
+   action: service name=mysql state=restarted
+

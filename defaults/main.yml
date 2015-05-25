@@ -1,0 +1,19 @@
+# mysql_backup:
+#  crontime: [cronentry] cron entry that triggers the backup
+#  keep: [number] how many backups do we keep
+#  destination: [destination] directory in the filesystem to put backups in
+#  s3bucket: [bucketaddess] when defined, this will trigger a 
+#            sync from mysql_backup.destination to s3 bucket
+#
+# mysql_users:
+#   - { user: foo,
+#       password: "bar",
+#       priv="*.*:ALL"
+#       host="somehost" }
+
+mysql_bind_address: "127.0.0.1"
+mysql_key_buffer: "16M"
+mysql_php5: false
+mysql_root_password: "changeme"
+
+percona_version: 5.6

@@ -1,0 +1,3 @@
+dependencies:
+  - { role: ansible-s3cmd,
+      when: 'mysql_backup is defined and mysql_backup.s3bucket is defined' }

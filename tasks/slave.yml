@@ -1,0 +1,13 @@
+- debug: var=mysql
+
+- name: Adds required slave MySQL
+  mysql_user: >
+    login_user=root
+    login_password="{{mysql_root_password}}"
+    name="{{ item.name }}"
+    password="{{ item.password }}"
+    priv=*.*:"REPLICATION SLAVE"
+    host="{{ ansible_eth1['ipv4']['address'] }}"
+  with_items: mysql_replication_users
+  when: mysql_replication_users is defined
+  delegate_to: "{{ mysql_master_host }}"

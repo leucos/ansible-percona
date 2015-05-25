@@ -1,0 +1,9 @@
+- include: setup.yml tags=percona,percona:install
+
+- include: client.yml tags=percona,percona-client
+
+# - include: slave.yml tags=percona,percona:client,percona:slaves
+#   when: mysql.is_slave is defined and mysql.is_slave
+
+- include: backup.yml tags=backup,percona
+  when: mysql_backup is defined

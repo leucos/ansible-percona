@@ -1,3 +1,19 @@
+---
+galaxy_info:
+  author: Michel Blanc
+  description: 
+  company: devops.works
+  license: MIT
+  min_ansible_version: 1.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+       - trusty
+    - name: Debian
+      versions:
+        - wheezy
+
 dependencies:
-  - { role: ansible-s3cmd,
+  - { role: leucos.s3cmd,
       when: 'mysql_backup is defined and mysql_backup.s3bucket is defined' }

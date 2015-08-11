@@ -1,0 +1,13 @@
+{% import 'variables.inc' as var with context %}
+
+# Allow access to clients
+protocol tcp dport {{ percona_port }} {
+  @def $ITEMS = ( @ipfilter( ( {{ var.mysql_allow | unique | join(" ") }} ) ) );
+  saddr $ITEMS ACCEPT;
+}
+
+# Allow access to slaves
+protocol tcp dport {{ percona_port }} {
+  @def $ITEMS = ( @ipfilter( ( {{ var.slaves_list | unique | join(" ") }} ) ) );
+  saddr $ITEMS ACCEPT;
+}

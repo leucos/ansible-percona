@@ -1,19 +1,35 @@
-# mysql_backup:
+# percona_backup:
 #  crontime: [cronentry] cron entry that triggers the backup
 #  keep: [number] how many backups do we keep
 #  destination: [destination] directory in the filesystem to put backups in
-#  s3bucket: [bucketaddess] when defined, this will trigger a 
-#            sync from mysql_backup.destination to s3 bucket
+#  s3bucket: [bucketaddess] when defined, this will trigger a
+#            sync from percona_backup.destination to s3 bucket
 #
-# mysql_users:
-#   - { user: foo,
-#       password: "bar",
-#       priv="*.*:ALL"
-#       host="somehost" }
 
-mysql_bind_address: "127.0.0.1"
-mysql_key_buffer: "16M"
-mysql_php5: false
-mysql_root_password: "changeme"
-
+percona_bind_address: "127.0.0.1"
+# if defined, percona_bind_interface takes precedence over percona_bind_address
+# note that percona_bind_interface *must* be defined for master slave setup to work
+percona_bind_interface: false
+percona_datadog_user: false
+percona_datadog_password: false
+percona_ferm_enabled: ferm_enabled | default(false)
+percona_filter_allow_percona_port: false
+percona_key_buffer: "16M"
+percona_master_host: false
+percona_max_binlog_size: 100M
+percona_port: 3306
+percona_replication_user: false
+percona_replication_password: false
+percona_root_password: false
+perconsa_slaves_group: false
+# Interface slaves are using to connect to the server
+percona_slaves_interface: "{{ percona_bind_interface }}"
+# Percona user list
+# This should be set by you application, not here
+percona_users: []
+# percona_users:
+#   - user: foo,
+#     password: "bar",
+#     priv="*.*:ALL"
+#     host="somehost"
 percona_version: 5.6

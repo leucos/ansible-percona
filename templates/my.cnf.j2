@@ -4,7 +4,7 @@
 # You can copy this to one of:
 # - "/etc/mysql/my.cnf" to set global options,
 # - "~/.my.cnf" to set user-specific options.
-# 
+#
 # One can use all long options that the program supports.
 # Run program with --help to get a list of available options and with
 # --print-defaults to see which it would actually understand and use.
@@ -45,19 +45,25 @@ nice		= 0
 
 user		  = mysql
 socket		= /var/run/mysqld/mysqld.sock
-port		  = 3306
+port		  = {{ percona_port }}
 basedir		= /usr
 datadir		= /var/lib/mysql
 tmpdir		= /tmp
 skip-external-locking
+skip-name-resolve
+
 #
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address		= {{ mysql_bind_address }} 
+{% if percona_bind_interface %}
+bind-address    = {{ hostvars[inventory_hostname]['ansible_' + percona_bind_interface].ipv4.address }}
+{% else %}
+bind-address    = {{ percona_bind_address }}
+{% endif %}
 #
 # * Fine Tuning
 #
-key_buffer		= {{ mysql_key_buffer }}  
+key_buffer		= {{ percona_key_buffer }}
 max_allowed_packet	= 16M
 thread_stack		= 192K
 thread_cache_size       = 8
@@ -98,15 +104,18 @@ max_binlog_size         = 100M
 #binlog_do_db		= include_database_name
 #binlog_ignore_db	= include_database_name
 
-server-id   = 1
+{% if percona_slaves_group is defined and inventory_hostname in groups[percona_slaves_group] %}
+server-id = {{ percona_server_id }}
+relay-log = {{ inventory_hostname }}-slave-relay-bin
+relay-log-index = {{ inventory_hostname }}-slave-relay-bin.index
+{% elif percona_master_host == inventory_hostname %}
+server-id     = 1
 log-bin       = master-bin
 log-bin-index = master-bin.index
 expire_logs_days  = 35
-max_binlog_size   = 100M
-{% if mysql_is_slave is defined and mysql_is_slave %}
-server-id = {{ mysql_server_id }}
-relay-log = {{ ansible_fqdn }}-slave-relay-bin
-relay-log-index = {{ ansible_fqdn }}-slave-relay-bin.index
+max_binlog_size   = {{ percona_max_binlog_size }}
+{% else %}
+# Single host mode configured
 {% endif %}
 
 # * InnoDB
@@ -136,7 +145,7 @@ max_allowed_packet	= 16M
 #no-auto-rehash	# faster start of mysql but no tab completition
 
 [isamchk]
-key_buffer		= {{ mysql_key_buffer }}
+key_buffer		= {{ percona_key_buffer }}
 
 #
 # * IMPORTANT: Additional settings that can override those from this file!

@@ -1,7 +1,7 @@
 Percona server deployment
 =========================
 
-Percona playbook deployement
+Percona database server role
 
 This role will let you install a Percona server.
 

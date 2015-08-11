@@ -2,7 +2,7 @@
 ##
 # MySQL DB dumping.
 #
-#  
+#
 - name: Installs backup script
   template: >
     src="../templates/backup_all_databases.j2"
@@ -10,14 +10,14 @@
     mode=0700
 
 - name: Ensures backup destination exists
-  file: >
-    path={{ mysql_backup.destination }}
-    state=directory
-    mode=0700
-    owner=root
+  file:
+    path: "{{ percona_backup.destination }}"
+    state: directory
+    mode: 0700
+    owner: root
 
 - name: Adds backup crontab entry
-  template: >
-    src="../templates/backup_all_databases.crontab.j2"
-    dest=/etc/cron.d/backup_all_databases
-    mode=0750
+  template:
+    src: "../templates/backup_all_databases.crontab.j2"
+    dest: /etc/cron.d/backup_all_databases
+    mode: 0750

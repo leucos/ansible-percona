@@ -1,13 +1,55 @@
-- debug: var=mysql
+---
+# Percona Slaves Setup
+# We assume that, if a master slace setup is user, we bind to a specific interface
 
-- name: Adds required slave MySQL
-  mysql_user: >
-    login_user=root
-    login_password="{{mysql_root_password}}"
-    name="{{ item.name }}"
-    password="{{ item.password }}"
-    priv=*.*:"REPLICATION SLAVE"
-    host="{{ ansible_eth1['ipv4']['address'] }}"
-  with_items: mysql_replication_users
-  when: mysql_replication_users is defined
-  delegate_to: "{{ mysql_master_host }}"
+- set_fact:
+    __percona_master_ip: "{{ hostvars[percona_master_host]['ansible_' + percona_bind_interface]['ipv4']['address'] }}"
+
+- name: Adds required relication users
+  mysql_user:
+    login_user: root
+    login_password: "{{ percona_root_password }}"
+    name: "{{ percona_replication_user }}"
+    password: "{{ percona_replication_password }}"
+    priv: "*.*:REPLICATION SLAVE"
+    host: "{{ hostvars[item]['ansible_' + percona_bind_interface]['ipv4']['address'] }}"
+  with_items:
+    - "{{ groups[percona_slaves_group] }}"
+  delegate_to: "{{ percona_master_host }}"
+
+- name: Get slaves
+  mysql_replication:
+    mode: getslave
+  register: __percona_slaves_status
+  when: "inventory_hostname in groups[percona_slaves_group]"
+
+- name: Debug status
+  debug: var=__percona_slaves_status
+
+- name: Stop slave if Slave_IO_Running=No
+  mysql_replication:
+    mode: stopslave
+  when: "inventory_hostname in groups[percona_slaves_group] and __percona_slaves_status.Slave_IO_Running == 'No'"
+
+- name: Stop slave if master is new
+  mysql_replication:
+    mode: stopslave
+  when: "inventory_hostname in groups[percona_slaves_group] and __percona_slaves_status.Master_Host != __percona_master_ip"
+
+- name: Start slave with proper master if slave was not running
+  mysql_replication:
+    mode: startslave
+    master_host: "{{ __percona_master_ip }}"
+    master_port: "{{ percona_port }}"
+    master_user: "{{ percona_replication_user }}"
+    master_password: "{{ percona_replication_password }}"
+  when: "inventory_hostname in groups[percona_slaves_group] and __percona_slaves_status.Slave_IO_Running == 'No'"
+
+- name: Change master if master is new
+  mysql_replication:
+    mode: changemaster
+    master_host: "{{ __percona_master_ip }}"
+    master_port: "{{ percona_port }}"
+    master_user: "{{ percona_replication_user }}"
+    master_password: "{{ percona_replication_password }}"
+  when: "inventory_hostname in groups[percona_slaves_group] and __percona_slaves_status.Master_Host != __percona_master_ip"

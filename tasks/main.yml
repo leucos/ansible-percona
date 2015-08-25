@@ -2,11 +2,14 @@
 - include: percona.yml tags=percona,percona:install
 # - include: percona-client.yml tags=percona,percona:client
 
-- include: slave.yml tags=percona,percona:client,percona:slaves
-  when: "percona_master_host and '{{percona_slaves_group}}' in group_names"
+# mysql_replication is badly broken
+# it is ok on a NEW server, but fails miserably on a running server
+# don't expect it to handle a proper binlog or logpos
+#- include: slave.yml tags=percona,percona:client,percona:slaves
+#  when: "percona_master_host and '{{percona_slaves_group}}' in group_names"
 
 - include: backup.yml tags=backup,percona
-  when: mysql_backup is defined
+  when: percona_backup
 
 - include: datadog.yml tags=percona,datadog
-  when: percona_datadog_user and percona_datadog_password and datadog_api_key is defined and datadog_api_key
+  when: percona_datadog_user and percona_datadog_password and datadog_enabled

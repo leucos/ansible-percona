@@ -4,10 +4,10 @@
 #
 #
 - name: Installs backup script
-  template: >
-    src="../templates/backup_all_databases.j2"
-    dest=/usr/local/bin/backup_all_databases
-    mode=0700
+  template:
+    src: "../templates/backup_all_databases.j2"
+    dest: /usr/local/bin/backup_all_databases
+    mode: 0700
 
 - name: Ensures backup destination exists
   file:

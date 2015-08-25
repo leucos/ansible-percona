@@ -5,9 +5,9 @@
 #
 
 # How many backups to keep
-KEEP={{ mysql_backup.keep }}
-DEST="{{ mysql_backup.destination }}"
-PASS="{{ mysql_root_password }}"
+KEEP={{ percona_backup.keep }}
+DEST="{{ percona_backup.destination }}"
+PASS="{{ percona_root_password }}"
 
 DB=`echo "show databases;" | mysql --password=$PASS | tail -n +2 | grep -v information_schema | grep -v performance_schema`
 for j in $DB; do
@@ -31,8 +31,8 @@ for j in $DB; do
     done
   fi
 
-  if [ -n "{{ mysql_backup.s3bucket }}" ]; then
-    s3cmd sync --delete-removed {{ mysql_backup.destination }}/  s3://{{ mysql_backup.s3bucket }}/
+  if [ -n "{{ percona_backup.s3bucket }}" ]; then
+    s3cmd sync --delete-removed {{ percona_backup.destination }}/ s3://{{ percona_backup.s3bucket }}/
   fi
 done
 

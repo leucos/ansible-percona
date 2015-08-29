@@ -8,7 +8,7 @@
 percona_backup: false
 #percona_backup:
 #  keep: 30
-#  s3bucket: 
+#  s3bucket:
 #  destination: /var/backups/mysql/
 #  cron_time: "15 */2 * * 0-7"
 
@@ -23,6 +23,7 @@ percona_filter_allow_percona_port: false
 percona_key_buffer: "16M"
 percona_master_host: false
 percona_max_binlog_size: 100M
+percona_max_connections: 151
 percona_port: 3306
 percona_replication_user: false
 percona_replication_password: false

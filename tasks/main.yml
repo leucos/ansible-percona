@@ -2,11 +2,12 @@
 - include: percona.yml tags=percona,percona:install
 # - include: percona-client.yml tags=percona,percona:client
 
-# mysql_replication is badly broken
+# mysql_replication won't help you with replication
 # it is ok on a NEW server, but fails miserably on a running server
 # don't expect it to handle a proper binlog or logpos
-#- include: slave.yml tags=percona,percona:client,percona:slaves
-#  when: "percona_master_host and '{{percona_slaves_group}}' in group_names"
+# so in the slave.yml tasks, all calls to mysql_replication have been removed
+- include: slave.yml tags=percona,percona:client,percona:slaves
+  when: "percona_master_host and '{{percona_slaves_group}}' in group_names"
 
 - include: backup.yml tags=backup,percona
   when: percona_backup

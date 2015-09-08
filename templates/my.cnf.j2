@@ -35,7 +35,7 @@ socket	= /var/run/mysqld/mysqld.sock
 [mysqld_safe]
 socket	= /var/run/mysqld/mysqld.sock
 nice		= 0
-
+open_files_limit = {{ percona_open_files_limit }}
 [mysqld]
 #
 # * Basic Settings

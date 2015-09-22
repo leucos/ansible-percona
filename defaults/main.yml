@@ -29,6 +29,8 @@ percona_port: 3306
 percona_replication_user: false
 percona_replication_password: false
 percona_root_password: false
+# Can slaves act as masters ?
+percona_slaves_as_masters: false
 percona_slaves_group: false
 # Interface slaves are using to connect to the server
 percona_slaves_interface: "{{ percona_bind_interface }}"

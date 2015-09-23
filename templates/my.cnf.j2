@@ -89,7 +89,7 @@ query_cache_size        = 16M
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
 # As of 5.1 you can enable the log at runtime!
-#general_log_file        = /var/log/mysql/mysql.log
+general_log_file        = /var/log/mysql/{{ inventory_hostname }}mysql.log
 #general_log             = 1
 
 log_error                = /var/log/mysql/error.log

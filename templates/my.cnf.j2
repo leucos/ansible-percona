@@ -109,7 +109,7 @@ max_binlog_size         = 100M
 #binlog_do_db		= include_database_name
 #binlog_ignore_db	= include_database_name
 
-{% if percona_slaves_group and if inventory_hostname in groups[percona_slaves_group] %}
+{% if percona_slaves_group and inventory_hostname in groups[percona_slaves_group] %}
 server-id = {{ percona_server_id }}
 
 {%   if percona_slaves_as_masters %}

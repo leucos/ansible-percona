@@ -109,32 +109,26 @@ max_binlog_size         = 100M
 #binlog_do_db		= include_database_name
 #binlog_ignore_db	= include_database_name
 
-{% if percona_slaves_group is defined %}
-{%- 
-    # we have to split this 'AND' in two lines so we don't have an
-    # error if percona_slaves_group is not defined
--%}
-{%   if inventory_hostname in groups[percona_slaves_group] %}
+{% if percona_slaves_group and if inventory_hostname in groups[percona_slaves_group] %}
 server-id = {{ percona_server_id }}
 
-{%     if percona_slaves_as_masters %}
+{%   if percona_slaves_as_masters %}
 # slaves can act as masters
 log-bin       = slave-master-bin
 log-bin-index = slave-master-bin.index
 log-slave-updates = 1
-{%     endif %}
+{%   endif %}
 
 relay-log = {{ inventory_hostname }}-slave-relay-bin
 relay-log-index = {{ inventory_hostname }}-slave-relay-bin.index
-{%   elif percona_master_host == inventory_hostname %}
+{% elif percona_master_host == inventory_hostname %}
 server-id     = 1
 log-bin       = master-bin
 log-bin-index = master-bin.index
 expire_logs_days  = 35
 max_binlog_size   = {{ percona_max_binlog_size }}
-{%   else %}
+{% else %}
 # Single host mode configured
-{%   endif %}
 {% endif %}
 
 # * InnoDB

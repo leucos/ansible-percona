@@ -89,7 +89,7 @@ query_cache_size        = 16M
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
 # As of 5.1 you can enable the log at runtime!
-general_log_file        = /var/log/mysql/{{ inventory_hostname }}mysql.log
+general_log_file        = /var/log/mysql/{{ inventory_hostname }}_mysql.log
 #general_log             = 1
 
 log_error                = /var/log/mysql/error.log
@@ -109,26 +109,32 @@ max_binlog_size         = 100M
 #binlog_do_db		= include_database_name
 #binlog_ignore_db	= include_database_name
 
-{% if percona_slaves_group is defined and inventory_hostname in groups[percona_slaves_group] %}
+{% if percona_slaves_group is defined %}
+{%- 
+    # we have to split this 'AND' in two lines so we don't have an
+    # error if percona_slaves_group is not defined
+-%}
+{%   if inventory_hostname in groups[percona_slaves_group] %}
 server-id = {{ percona_server_id }}
 
-{%   if percona_slaves_as_masters %}
+{%     if percona_slaves_as_masters %}
 # slaves can act as masters
 log-bin       = slave-master-bin
 log-bin-index = slave-master-bin.index
 log-slave-updates = 1
-{%   endif %}
+{%     endif %}
 
 relay-log = {{ inventory_hostname }}-slave-relay-bin
 relay-log-index = {{ inventory_hostname }}-slave-relay-bin.index
-{% elif percona_master_host == inventory_hostname %}
+{%   elif percona_master_host == inventory_hostname %}
 server-id     = 1
 log-bin       = master-bin
 log-bin-index = master-bin.index
 expire_logs_days  = 35
 max_binlog_size   = {{ percona_max_binlog_size }}
-{% else %}
+{%   else %}
 # Single host mode configured
+{%   endif %}
 {% endif %}
 
 # * InnoDB

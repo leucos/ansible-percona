@@ -111,7 +111,7 @@ max_binlog_size         = 100M
 
 {% if percona_slaves_group and inventory_hostname in groups[percona_slaves_group] %}
 server-id = {{ percona_server_id }}
-
+read-only = 1
 {%   if percona_slaves_as_masters %}
 # slaves can act as masters
 log-bin       = slave-master-bin

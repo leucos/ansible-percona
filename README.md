@@ -111,15 +111,15 @@ Usage
 The role is supposed to be used this way from a playbook ("www", "dbslaves"
 and "dbmaster" are some groups/hosts defined in Ansible inventory):
 
-  - hosts: database
-    roles:
-      - role: leucos.percona
-        percona_filter_allow_percona_port: [ "www" ]
-        percona_slaves_group: dbslaves
-        percona_master_host: dbmaster
-        percona_replication_user: replicator
-        percona_replication_password: 0mgpass
-        percona_root_password: fafdda28e3f
+    - hosts: database
+      roles:
+        - role: leucos.percona
+          percona_filter_allow_percona_port: [ "www" ]
+          percona_slaves_group: dbslaves
+          percona_master_host: dbmaster
+          percona_replication_user: replicator
+          percona_replication_password: 0mgpass
+          percona_root_password: fafdda28e3f
 
 Of course, all the variables could be in a group_vars file (best practice, but
 it is shorter to present it this way, and it can be used to create various

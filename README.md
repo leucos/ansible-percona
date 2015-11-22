@@ -2,6 +2,14 @@
 
 Percona database server role
 
+This role supports can install standalone server or replication topologies.
+
+It comes batteries included:
+
+- backup support with (optional) S3 offloading (via [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd))
+- (optional) filtering support (via [leucos.ferm](https://github.com/leucos/ansible-ferm))
+- (optional) Datadog integration support (via [leucos.datadog](https://github.com/leucos/ansible-datadog))
+
 ## Requirements
 
 MySQLdb python package (required by `mysql_*` Ansible modules)
@@ -139,9 +147,10 @@ Dependencies
 ------------
 
 This role depends on:
-- [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd) when S3 backup is enabled
-- [leucos.ferm](https://github.com/leucos/ansible-ferm) when ferm is enabled
-- [leucos.datadog](https://github.com/leucos/ansible-datadog) when datadog is enabled
+- [leucos.percona-client](https://github.com/leucos/ansible-percona-client)
+- [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd) only when S3 backup is enabled
+- [leucos.ferm](https://github.com/leucos/ansible-ferm) only when ferm is enabled
+- [leucos.datadog](https://github.com/leucos/ansible-datadog) only when datadog is enabled
 
 Warning
 -------

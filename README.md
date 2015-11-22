@@ -4,11 +4,11 @@ Percona database server role
 
 This role supports can install standalone server or replication topologies.
 
-It comes batteries included:
+It comes with batteries included:
 
 - backup support with (optional) S3 offloading (via [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd))
 - (optional) filtering support (via [leucos.ferm](https://github.com/leucos/ansible-ferm))
-- (optional) Datadog integration support (via [leucos.datadog](https://github.com/leucos/ansible-datadog))
+- (optional) Datadog integration support (via [leucos.datadog-agent](https://github.com/leucos/ansible-datadog-agent))
 
 ## Requirements
 
@@ -16,16 +16,15 @@ MySQLdb python package (required by `mysql_*` Ansible modules)
 
 ## Role Variables
 
+### Backup
 
-### percona_backup
-
-Define this dict if you want to create database backups.
+Define `percona_backup` dict if you want to create database backups.
 This dict is not defined by default (so _no backups take place_).
 
-- percona_backup.crontime: cron entry that triggers the backup (e.g. "15 */2 * * 0-7")
-- percona_backup.keep: how many backups do we keep
-- percona_backup.destination: directory in the filesystem to put backups in
-- percona_backup.s3bucket: when defined, this will trigger a sync from percona_backup.destination this s3 bucket (e.g. s3://some-bucket)
+- `percona_backup.crontime`: cron entry that triggers the backup (e.g. "15 */2 * * 0-7")
+- `percona_backup.keep`: how many backups do we keep
+- `percona_backup.destination`: directory in the filesystem to put backups in
+- `percona_backup.s3bucket`: when defined, this will trigger a sync from percona_backup.destination this s3 bucket (e.g. s3://some-bucket)
 
 ### MySQL config related variables
 
@@ -156,6 +155,9 @@ Warning
 -------
 
 Try this role many times and ensure it fits your needs before using it for production...
+
+While this role can help setting up master-slave replication or NEW servers,
+it won't help you setup replication for already deployed servers.
 
 License
 -------

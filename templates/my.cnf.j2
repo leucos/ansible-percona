@@ -52,7 +52,7 @@ socket		= /var/run/mysqld/mysqld.sock
 port		  = {{ percona_port }}
 basedir		= /usr
 datadir		= /var/lib/mysql
-tmpdir		= /tmp
+tmpdir		= {{ percona_tmp_dir }}
 skip-external-locking
 skip-name-resolve
 
@@ -67,10 +67,10 @@ bind-address    = {{ percona_bind_address }}
 #
 # * Fine Tuning
 #
-key_buffer		= {{ percona_key_buffer }}
-max_allowed_packet	= 16M
-thread_stack		= 192K
-thread_cache_size       = 8
+key_buffer         = {{ percona_key_buffer }}
+max_allowed_packet = 16M
+thread_stack       = 192K
+thread_cache_size  = {{ percona_thread_cache_size }}
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
 myisam-recover         = BACKUP
@@ -81,8 +81,10 @@ max_connections        = {{ percona_max_connections }}
 #
 # * Query Cache Configuration
 #
-query_cache_limit	= 1M
-query_cache_size        = 16M
+query_cache_limit = {{ percona_query_cache_limit }}
+query_cache_size  = {{ percona_query_cache_size }}
+query_cache_strip_comments = {{ percona_query_cache_strip_comments }}
+query_cache_type  = {{ percona_query_cache_type }}
 #
 # * Logging and Replication
 #
@@ -104,8 +106,8 @@ log_error                = /var/log/mysql/error.log
 #       other settings you may need to change.
 #server-id		= 1
 #log_bin			= /var/log/mysql/mysql-bin.log
-expire_logs_days	= 10
-max_binlog_size         = 100M
+expire_logs_days  = 10
+max_binlog_size   = 100M
 #binlog_do_db		= include_database_name
 #binlog_ignore_db	= include_database_name
 
@@ -147,7 +149,8 @@ max_binlog_size   = {{ percona_max_binlog_size }}
 # ssl-cert=/etc/mysql/server-cert.pem
 # ssl-key=/etc/mysql/server-key.pem
 
-
+tmp_table_size      = {{ percona_tmp_table_size }}
+max_heap_table_size = {{ percona_max_heap_table_size }}
 
 [mysqldump]
 quick

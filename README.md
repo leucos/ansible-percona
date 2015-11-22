@@ -46,6 +46,7 @@ All variables below are their MySQL equivalent.
 - `percona_query_cache_size` (default: 16M)
 - `percona_query_cache_strip_comments` (default: 0)
 - `percona_query_cache_type` (default: 0)
+- `percona_server_id` (default: none)
 - `percona_thread_cache_size` (default: 8)
 - `percona_tmp_dir` (default: /tmp)
 - `percona_tmp_table_size` (default: 16777216)
@@ -67,31 +68,85 @@ replication user).
 Root's password can be set in `percona_root_password` (default: none,
 *mandatory*)
 
-# Can slaves act as masters ?
-percona_slaves_as_masters: false
-percona_slaves_group: false
-# Interface slaves are using to connect to the server
-percona_slaves_interface: "{{ percona_bind_interface }}"
-percona_datadog_user: false
-percona_datadog_password: false
-percona_ferm_enabled: ferm_enabled | default(false)
-percona_filter_allow_percona_port: false
+### Replication
+
+If slaves can act as masters for other slaves, `percona_slaves_as_masters`
+should be set to true (default: false). 
+
+Also, for replication to be set-up, `percona_slaves_group` should point to an
+inventory group (default: false).
+
+### Firewalling
+
+If you want to deploy ferm rules, `percona_ferm_enabled` should be set to true
+(default: ferm_enabled | default(false)). Variable
+`percona_filter_allow_percona_port` is a list that accepts inventory host
+names, group names or ip ranges. By default, it is `false` which means mysql
+port will be filtered to all hosts.
+
+In order to set-up proper [ferm](https://galaxy.ansible.com/detail#/role/6120)
+rules, slaves network interface must be the same across all slaves, and should
+be named in `percona_slaves_interface` (default: "{{ percona_bind_interface
+}}"). If it is not set, the role will use `percona_bind_interface`.
+
+### Datadog support
+
+If `datadog_enabled` is set to `true`, and if both `percona_datadog_user` and
+`percona_datadog_password` are defined, a mysql datadog integration file will
+be deployed.
+
+- `percona_datadog_user`: MySQL user for datadog integration (default: `false`)
+- `percona_datadog_password`: MySQL user for datadog integration (default: `false`)
 
 Usage
 -----
 
-The role is supposed to be used this way from a playbook:
+The role is supposed to be used this way from a playbook ("www", "dbslaves"
+and "dbmaster" are some groups/hosts defined in Ansible inventory):
 
   - hosts: database
     roles:
       - role: leucos.percona
-        percona_filter_allow_percona_port: [ 'www' ]
+        percona_filter_allow_percona_port: [ "www" ]
+        percona_slaves_group: dbslaves
+        percona_master_host: dbmaster
+        percona_replication_user: replicator
+        percona_replication_password: 0mgpass
+        percona_root_password: fafdda28e3f
+
+Of course, all the variables could be in a group_vars file (best practice, but
+it is shorter to present it this way, and it can be used to create various
+replication topologies).
+
+Example master host vars:
+
+    datadog_enabled: true # or false
+    percona_server_id: 1
+
+Example slave host vars: 
+
+    percona_backup:
+      keep: 360
+      s3bucket: my-awesome-bucker
+      destination: /var/backups/mysql/
+      cron_time: "15 * * * 0-7"
+
+    percona_bind_interface: em2
+    percona_server_id: 2
+
 
 Dependencies
 ------------
 
 This role depends on:
 - [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd) when S3 backup is enabled
+- [leucos.ferm](https://github.com/leucos/ansible-ferm) when ferm is enabled
+- [leucos.datadog](https://github.com/leucos/ansible-datadog) when datadog is enabled
+
+Warning
+-------
+
+Try this role many times and ensure it fits your needs before using it for production...
 
 License
 -------
@@ -102,3 +157,5 @@ Author Information
 ------------------
 
 [@leucos](https://github.com/leucos)
+
+Patches welcome!

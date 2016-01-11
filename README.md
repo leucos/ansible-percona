@@ -88,7 +88,7 @@ inventory group (default: false).
 If you want to deploy ferm rules, `percona_ferm_enabled` should be set to true
 (default: ferm_enabled | default(false)). Variable
 `percona_filter_allow_percona_port` is a list that accepts inventory host
-names, group names or ip ranges. By default, it is `false` which means mysql
+names, group names or ip ranges. By default, it is empty (`[]`) which means mysql
 port will be filtered to all hosts.
 
 In order to set-up proper [ferm](https://galaxy.ansible.com/detail#/role/6120)

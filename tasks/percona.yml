@@ -6,7 +6,7 @@
 - name: Adds percona key
   apt_key:
     keyserver: keys.gnupg.net
-    id: 1C4CBDCDCD2EFD2A
+    id: 8507EFA5
 
 - name: Adds percona repositories
   apt_repository:
@@ -16,7 +16,7 @@
 # debconf-get-selections | grep percona
 - name: Sets root password
   debconf:
-    name: "percona-server-server-5.6"
+    name: "percona-server-server-{{ percona_version }}"
     question: "{{ item }}"
     value: "{{ percona_root_password }}"
     vtype: 'password'

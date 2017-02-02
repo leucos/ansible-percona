@@ -1,0 +1,29 @@
+#!/bin/bash
+# -*- bash -*-
+
+# This gives you access to the custom DSL
+. "${ROLESPEC_LIB}/main"
+. "${ROLESPEC_TEST}/defaults.conf"
+
+# Get CI_USER
+if [ -z "${TRAVIS}" ]; then
+  CI_USER="ubuntu"
+else
+  CI_USER="${USER}"
+fi
+
+# Set "admin" credentials for database
+# echo -e "[client]\nuser=root\npass=foobar\n" | sudo tee /root/.my.cnf > /dev/null
+
+# Install a specific version of Ansible
+install_ansible ${test_ansible_version}
+
+# Préreq
+[ -e requirements.yml ] && ansible-galaxy install -r requirements.yml
+
+# Check syntax first, and then that the playbook runs
+assert_playbook_runs -e "ci_user=$CI_USER" 
+# Add -vvvv if you want it verbose
+
+# Check that the playbook is idempotent
+assert_playbook_idempotent -e "ci_user=$CI_USER" 

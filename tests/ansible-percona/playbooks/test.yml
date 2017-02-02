@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: True
+  vars:
+    ferm_enabled: false
+    percona_root_password: foobar
+
+  roles:
+    - role: ansible-percona

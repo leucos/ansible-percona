@@ -7,7 +7,7 @@
 # don't expect it to handle a proper binlog or logpos
 # so in the slave.yml tasks, all calls to mysql_replication have been removed
 - include: slave.yml tags=percona,percona:client,percona:slaves
-  when: "percona_master_host and '{{percona_slaves_group}}' in group_names"
+  when: "percona_master_host is defined and percona_master_host and '{{percona_slaves_group}}' in group_names"
 
 - include: backup.yml tags=backup,percona
   when: percona_backup

@@ -123,7 +123,7 @@ log-slave-updates = 1
 
 relay-log = {{ inventory_hostname }}-slave-relay-bin
 relay-log-index = {{ inventory_hostname }}-slave-relay-bin.index
-{% elif percona_master_host == inventory_hostname %}
+{% elif percona_master_host is defined and percona_master_host == inventory_hostname %}
 server-id     = 1
 log-bin       = master-bin
 log-bin-index = master-bin.index

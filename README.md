@@ -43,7 +43,7 @@ All variables below are their MySQL equivalent.
 
 - `percona_bind_address` (default: "127.0.0.1")
 - `percona_key_buffer` (default: "16M")
-- `percona_master_host` (default: false)
+- `percona_master_host` (default: undefined)
 - `percona_max_binlog_size` (default: 100M)
 - `percona_max_connections` (default: 151)
 - `percona_max_heap_table_size` (default: 16777216)

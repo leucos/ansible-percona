@@ -36,7 +36,7 @@ for j in $DB; do
   fi
 
   if [ -n "{{ percona_backup_s3bucket }}" ]; then
-    s3cmd sync --delete-removed {{ percona_backup.destination }}/ s3://{{ percona_backup_s3bucket }}/
+    s3cmd sync --delete-removed {{ percona_backup_destination }}/ s3://{{ percona_backup_s3bucket }}/
   fi
 
   if [ -n "{{ percona_backup_gcloudbucket }}" ]; then

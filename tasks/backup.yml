@@ -11,7 +11,7 @@
 
 - name: Ensures backup destination exists
   file:
-    path: "{{ percona_backup.destination }}"
+    path: "{{ percona_backup_destination }}"
     state: directory
     mode: 0700
     owner: root

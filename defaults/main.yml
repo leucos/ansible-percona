@@ -6,11 +6,11 @@
 #            sync from percona_backup.destination to s3 bucket
 #
 percona_backup: false
-#percona_backup:
-#  keep: 30
-#  s3bucket:
-#  destination: /var/backups/mysql/
-#  cron_time: "15 */2 * * 0-7"
+percona_backup_keep: 30
+percona_backup_s3bucket: ""
+percona_backup_gcloudbucket: ""
+percona_backup_destination: /var/backups/mysql/
+percona_backup_cron_time: "15 */2 * * 0-7"
 
 percona_bind_address: "127.0.0.1"
 # if defined, percona_bind_interface takes precedence over percona_bind_address

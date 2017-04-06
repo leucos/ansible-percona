@@ -9,13 +9,13 @@
 ########################################
 
 # How many backups to keep
-KEEP={{ percona_backup.keep }}
-DEST="{{ percona_backup.destination }}"
+KEEP={{ percona_backup_keep }}
+DEST="{{ percona_backup_destination }}"
 PASS="{{ percona_root_password }}"
 
 DB=`echo "show databases;" | mysql --password=$PASS | tail -n +2 | grep -v information_schema | grep -v performance_schema`
 for j in $DB; do
-  [[ $1 == '-v' ]] && echo -n "Backuping $j..." 
+  [[ $1 == '-v' ]] && echo -n "Backuping $j..."
   DATE=`date +%Y%m%d_%H%M%S`
   mysqldump --password=$PASS --single-transaction $j 2> /tmp/error | bzip2 > $DEST/$j-$DATE.sql.bz2
   if [ $? != 0 ]; then
@@ -35,8 +35,12 @@ for j in $DB; do
     done
   fi
 
-  if [ -n "{{ percona_backup.s3bucket }}" ]; then
-    s3cmd sync --delete-removed {{ percona_backup.destination }}/ s3://{{ percona_backup.s3bucket }}/
+  if [ -n "{{ percona_backup_s3bucket }}" ]; then
+    s3cmd sync --delete-removed {{ percona_backup.destination }}/ s3://{{ percona_backup_s3bucket }}/
+  fi
+
+  if [ -n "{{ percona_backup_gcloudbucket }}" ]; then
+    gsutil -m rsync -r ${DEST} gs://{{ percona_backup_gcloudbucket }}/$(hostname)/
   fi
 done
 

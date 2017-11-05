@@ -2,7 +2,8 @@
 # Percona Slaves Setup
 # We assume that, if a master slace setup is user, we bind to a specific interface
 
-- set_fact:
+- name: Sets percona master IP
+  set_fact:
     __percona_master_ip: "{{ hostvars[percona_master_host]['ansible_' + percona_bind_interface]['ipv4']['address'] }}"
 
 - name: Adds required replication users
@@ -72,7 +73,7 @@
 #     master_user: "{{ percona_replication_user }}"
 #     master_password: "{{ percona_replication_password }}"
 #   when: "inventory_hostname in groups[percona_slaves_group] and __percona_slaves_status.Slave_IO_Running == 'No'"
-# 
+#
 # - name: Change master if master is new
 #   mysql_replication:
 #     mode: changemaster

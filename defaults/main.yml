@@ -53,7 +53,7 @@ percona_tmp_table_size: 16777216
 # This should be set by you application, not here
 percona_users: []
 # percona_users:
-#   - user: foo,
+#   - name: foo,
 #     password: "bar",
 #     priv: "*.*:ALL"
 #     host: "somehost"

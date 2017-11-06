@@ -63,7 +63,7 @@ All variables below are their MySQL equivalent.
 `percona_users` contains a userlist like so:
 
     percona_users:
-      - user: foo,
+      - name: foo,
         password: "bar",
         priv: "*.*:ALL"
         host: "somehost"

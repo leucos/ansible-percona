@@ -1,3 +1,10 @@
- - name: Restart percona
-   action: service name=mysql state=restarted
+- name: Restart percona
+  service:
+   name: mysql
+   state: restarted
+
+- name: Restart ferm
+  service:
+   name: ferm
+   state: restarted
 

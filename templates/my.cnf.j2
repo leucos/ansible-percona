@@ -75,7 +75,9 @@ thread_stack       = 192K
 thread_cache_size  = {{ percona_thread_cache_size }}
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
+{% if percona_version | version_compare("5.6", "<=") %}
 myisam-recover         = BACKUP
+{% endif %}
 max_connections        = {{ percona_max_connections }}
 
 #table_cache            = 64

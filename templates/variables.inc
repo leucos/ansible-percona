@@ -1,7 +1,9 @@
 {% set slaves_list = [] -%}
-{%- for node in groups[percona_slaves_group] %}
-  {%- set _ = slaves_list.append(hostvars[node]['ansible_' + percona_bind_interface].ipv4.address) -%}
-{% endfor -%}
+{% if percona_slaves_group %}
+{%-   for node in groups[percona_slaves_group] %}
+  {%-   set _ = slaves_list.append(hostvars[node]['ansible_' + percona_bind_interface].ipv4.address) -%}
+{%   endfor -%}
+{% endif %}
 {# #}
 {% set mysql_allow = [] -%}
 {%- for elt in percona_filter_allow_percona_port %}

@@ -86,15 +86,15 @@
 
 - name: Adds required MySQL users
   mysql_user:
-    user: "{{ item.name }}"
+    name: "{{ item.name }}"
     password: "{{ item.password }}"
     priv: "{{ item.privs }}"
   with_items: [ "{{ percona_users }}" ]
   when: percona_users is defined
 
 - name: Adds required MySQL users with hosts
-  mysql_user: >
-    user: "{{ item.name }}"
+  mysql_user:
+    name: "{{ item.name }}"
     password: "{{ item.password }}"
     priv: "{{ item.privs }}"
     host: "{{ item.host }}"
@@ -103,25 +103,25 @@
 
 - name: Secures the MySQL root user for IPV6 localhost (::1)
   mysql_user:
-    user: "root"
+    name: "root"
     password: "{{ percona_root_password }}"
     host: "::1"
 
 - name: Secures the MySQL root user for IPV4 localhost (127.0.0.1)
   mysql_user:
-    user: "root"
+    name: "root"
     password: "{{ percona_root_password }}"
     host: "127.0.0.1"
 
 - name: Secures the MySQL root user for localhost domain (localhost)
   mysql_user:
-    user: "root"
+    name: "root"
     password: "{{ percona_root_password }}"
     host: "localhost"
 
 - name: Secures the MySQL root user for server_hostname domain
   mysql_user:
-    user: "root"
+    name: "root"
     password: "{{ percona_root_password }}"
     host: "{{ ansible_fqdn }}"
 

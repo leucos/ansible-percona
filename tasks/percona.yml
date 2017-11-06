@@ -89,8 +89,8 @@
     user: "{{ item.name }}"
     password: "{{ item.password }}"
     priv: "{{ item.privs }}"
-  with_items: [ "{{ mysql_users }}" ]
-  when: mysql_users is defined
+  with_items: [ "{{ percona_users }}" ]
+  when: percona_users is defined
 
 - name: Adds required MySQL users with hosts
   mysql_user: >
@@ -98,8 +98,8 @@
     password: "{{ item.password }}"
     priv: "{{ item.privs }}"
     host: "{{ item.host }}"
-  with_items: [ "{{ mysql_users }}" ]
-  when: item.host is defined and mysql_users is defined
+  with_items: [ "{{ percona_users }}" ]
+  when: item.host is defined and percona_users is defined
 
 - name: Secures the MySQL root user for IPV6 localhost (::1)
   mysql_user:

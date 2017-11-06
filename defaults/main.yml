@@ -55,8 +55,8 @@ percona_users: []
 # percona_users:
 #   - user: foo,
 #     password: "bar",
-#     priv="*.*:ALL"
-#     host="somehost"
-percona_version: 5.6
+#     priv: "*.*:ALL"
+#     host: "somehost"
+percona_version: 5.7
 
 

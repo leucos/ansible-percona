@@ -65,8 +65,8 @@ All variables below are their MySQL equivalent.
     percona_users:
       - user: foo,
         password: "bar",
-        priv="*.*:ALL"
-        host="somehost"
+        priv: "*.*:ALL"
+        host: "somehost"
 
 A replication user can be setup with `percona_replication_user` and
 `percona_replication_password` (default for both is false, which means no

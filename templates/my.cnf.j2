@@ -67,7 +67,9 @@ bind-address    = {{ percona_bind_address }}
 #
 # * Fine Tuning
 #
+{% if percona_version | version_compare("5.6", "<=") %}
 key_buffer         = {{ percona_key_buffer }}
+{% endif %}
 max_allowed_packet = 16M
 thread_stack       = 192K
 thread_cache_size  = {{ percona_thread_cache_size }}

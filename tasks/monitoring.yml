@@ -1,0 +1,12 @@
+
+- name: Creates monitoring user
+  mysql_user:
+    name: "{{ percona_monitoring_user }}"
+    password: "{{ percona_monitoring_password }}"
+    priv: "*.*:REPLICATION CLIENT"
+    host: "{{ item }}"
+    state: present
+  with_items:
+    - localhost
+    - 127.0.0.1
+

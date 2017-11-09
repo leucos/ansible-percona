@@ -8,7 +8,6 @@ It comes with batteries included:
 
 - backup support with (optional) S3 offloading (via [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd))
 - (optional) filtering support (via [leucos.ferm](https://github.com/leucos/ansible-ferm))
-- (optional) Datadog integration support (via [leucos.datadog-agent](https://github.com/leucos/ansible-datadog-agent))
 
 ## Requirements
 
@@ -96,14 +95,13 @@ rules, slaves network interface must be the same across all slaves, and should
 be named in `percona_slaves_interface` (default: "{{ percona_bind_interface
 }}"). If it is not set, the role will use `percona_bind_interface`.
 
-### Datadog support
+### Monitoring support
 
-If `datadog_enabled` is set to `true`, and if both `percona_datadog_user` and
-`percona_datadog_password` are defined, a mysql datadog integration file will
-be deployed.
+If both `percona_monitoring_user` and `percona_monitoring_password` are
+defined, a mysql user will be created for monitoring.
 
-- `percona_datadog_user`: MySQL user for datadog integration (default: `false`)
-- `percona_datadog_password`: MySQL user for datadog integration (default: `false`)
+- `percona_monitoring_user`: MySQL user for monitoring integration (default: `false`)
+- `percona_monitoring_password`: MySQL user for monitoring integration (default: `false`)
 
 Usage
 -----
@@ -127,10 +125,9 @@ replication topologies).
 
 Example master host vars:
 
-    datadog_enabled: true # or false
     percona_server_id: 1
 
-Example slave host vars: 
+Example slave host vars:
 
     percona_backup:
       keep: 360
@@ -145,11 +142,7 @@ Example slave host vars:
 Dependencies
 ------------
 
-This role depends on:
-- [leucos.percona-client](https://github.com/leucos/ansible-percona-client)
-- [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd) only when S3 backup is enabled
-- [leucos.ferm](https://github.com/leucos/ansible-ferm) only when ferm is enabled
-- [leucos.datadog](https://github.com/leucos/ansible-datadog) only when datadog is enabled
+None
 
 Warning
 -------

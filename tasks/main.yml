@@ -20,8 +20,9 @@
     - percona:client
     - percona:slaves
 
-- include: backup.yml tags=backup,percona
+- include: backup.yml
   when: percona_backup
+  tags:
     - percona
     - backup
     - percona:backup

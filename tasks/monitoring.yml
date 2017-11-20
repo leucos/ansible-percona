@@ -3,7 +3,7 @@
   mysql_user:
     name: "{{ percona_monitoring_user }}"
     password: "{{ percona_monitoring_password }}"
-    priv: "*.*:REPLICATION CLIENT"
+    priv: "*.*:REPLICATION CLIENT,PROCESS"
     host: "{{ item }}"
     state: present
   with_items:

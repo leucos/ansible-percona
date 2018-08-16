@@ -1,12 +1,13 @@
+---
 - name: Checking that required variables are set
   fail: msg="{{ item }} is not defined"
-  when: not {{ item }}
+  when: not item
   with_items:
     - percona_root_password
 
 - name: Checking that required variables are set if master/slave setup
   fail: msg="percona_slaves_group, perconna_replication_user and perconna_replication_password must be defined if percona_master_host is"
-  when: "percona_master_host is defined and not {{item}}"
+  when: percona_master_host is defined and not item
   with_items:
     - percona_bind_interface
     - percona_slaves_group

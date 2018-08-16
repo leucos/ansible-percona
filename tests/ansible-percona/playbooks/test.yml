@@ -1,9 +1,9 @@
 ---
 
 - hosts: all
-  become: True
+  become: true
   vars:
-    ferm_enabled: false
+    ferm_enabled: true
     percona_root_password: foobar
 
   roles:

@@ -1,3 +1,4 @@
+---
 # percona_backup:
 #  crontime: [cronentry] cron entry that triggers the backup
 #  keep: [number] how many backups do we keep
@@ -40,14 +41,14 @@ percona_replication_password: false
 percona_root_password: false
 # Can slaves act as masters ?
 percona_slaves_as_masters: false
-percona_slaves_group: False
+percona_slaves_group: false
 # Interface slaves are using to connect to the server
 percona_slaves_interface: "{{ percona_bind_interface }}"
 # Theads cache size
 percona_thread_cache_size: 8
 # Percona MySQL temporary directory (for temp tables)
 percona_tmp_dir: /tmp
-# Max in-memory tmp table size. See 
+# Max in-memory tmp table size.
 percona_tmp_table_size: 16777216
 # Percona user list
 # This should be set by you application, not here
@@ -58,5 +59,3 @@ percona_users: []
 #     priv: "*.*:ALL"
 #     host: "somehost"
 percona_version: 5.7
-
-

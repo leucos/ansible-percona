@@ -1,3 +1,4 @@
+---
 - src: git+ssh://git@github.com/leucos/ansible-ferm.git
   version: 1.0.0
 - src: git+ssh://git@github.com/leucos/ansible-s3cmd.git
@@ -6,4 +7,3 @@
   version: 1.0.0
 - src: git+ssh://git@github.com/leucos/ansible-percona-client.git
   version: 1.0.1
-

@@ -1,3 +1,4 @@
+---
 - name: Restart percona
   service:
    name: mysql
@@ -7,4 +8,3 @@
   service:
    name: ferm
    state: restarted
-

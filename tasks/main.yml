@@ -1,33 +1,33 @@
-- include: check_vars.yml
+---
+- import_tasks: check_vars.yml
   tags:
     - percona
     - check
 
-- include: percona.yml
+- import_tasks: percona.yml
   tags:
     - percona
     - percona:install
-# - include: percona-client.yml tags=percona,percona:client
 
 # mysql_replication won't help you with replication
 # it is ok on a NEW server, but fails miserably on a running server
 # don't expect it to handle a proper binlog or logpos
 # so in the slave.yml tasks, all calls to mysql_replication have been removed
-- include: slave.yml
-  when: "percona_master_host is defined and percona_master_host and '{{ percona_slaves_group }}' in group_names"
+- import_tasks: slave.yml
+  when: percona_master_host is defined and percona_master_host and percona_slaves_group in group_names
   tags:
     - percona
     - percona:client
     - percona:slaves
 
-- include: backup.yml
+- import_tasks: backup.yml
   when: percona_backup
   tags:
     - percona
     - backup
     - percona:backup
 
-- include: monitoring.yml
+- import_tasks: monitoring.yml
   when: percona_monitoring_user is defined and percona_monitoring_user
   tags:
     - percona

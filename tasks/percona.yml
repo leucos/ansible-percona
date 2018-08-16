@@ -1,3 +1,4 @@
+---
 ##
 # Percona database setup.
 #
@@ -138,4 +139,3 @@
   when: percona_ferm_enabled
   tags: ferm
   notify: Restart ferm
-

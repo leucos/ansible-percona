@@ -1,4 +1,4 @@
-
+---
 - name: Creates monitoring user
   mysql_user:
     name: "{{ percona_monitoring_user }}"
@@ -9,4 +9,3 @@
   with_items:
     - localhost
     - 127.0.0.1
-

@@ -6,7 +6,7 @@
 - name: Installs backup script
   template:
     src: "../templates/backup_all_databases.j2"
-    dest: /usr/local/bin/backup_all_databases
+    dest: /etc/backup.d/hourly/20_backup_all_mysql_databases.sh
     mode: 0700
 
 - name: Ensures backup destination exists
@@ -16,8 +16,7 @@
     mode: 0700
     owner: root
 
-- name: Adds backup crontab entry
-  template:
-    src: "../templates/backup_all_databases.crontab.j2"
-    dest: /etc/cron.d/backup_all_databases
-    mode: 0750
+- name: Remove old backup method crontab entry
+  file:
+    path: /etc/cron.d/backup_all_databases
+    state: 'absent'

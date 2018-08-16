@@ -6,7 +6,7 @@ This role supports can install standalone server or replication topologies.
 
 It comes with batteries included:
 
-- backup support with (optional) S3 offloading (via [leucos.s3cmd](https://github.com/leucos/ansible-s3cmd))
+- Hourly backup integration with ansible-backupninja role (https://github.com/devops-works/ansible-backupninja)
 - (optional) filtering support (via [leucos.ferm](https://github.com/leucos/ansible-ferm))
 
 ## Requirements
@@ -18,12 +18,7 @@ MySQLdb python package (required by `mysql_*` Ansible modules)
 ### Backup
 
 Define `percona_backup` dict if you want to create database backups.
-This dict is not defined by default (so _no backups take place_).
-
-- `percona_backup.crontime`: cron entry that triggers the backup (e.g. "15 */2 * * 0-7")
-- `percona_backup.keep`: how many backups do we keep
-- `percona_backup.destination`: directory in the filesystem to put backups in
-- `percona_backup.s3bucket`: when defined, this will trigger a sync from percona_backup.destination this s3 bucket (e.g. s3://some-bucket)
+It will install a backupscript in `/etc/backup.d/hourly`. See https://github.com/devops-works/ansible-backupninja for automation.
 
 ### MySQL config related variables
 

@@ -18,5 +18,5 @@
 
 - name: Remove old backup method crontab entry
   file:
-      path: /etc/cron.d/backup_all_databases
-      state: 'absent'
+    path: /etc/cron.d/backup_all_databases
+    state: 'absent'

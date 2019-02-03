@@ -6,6 +6,10 @@
 #  s3bucket: [bucketaddess] when defined, this will trigger a
 #            sync from percona_backup.destination to s3 bucket
 #
+percona_additional_tools:
+  - percona-xtrabackup
+  - percona-toolkit
+
 percona_backup: false
 percona_backup_keep: 30
 percona_backup_s3bucket: ""

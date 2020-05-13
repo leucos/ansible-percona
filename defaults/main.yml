@@ -7,9 +7,8 @@
 #            sync from percona_backup.destination to s3 bucket
 #
 percona_additional_tools:
-  - percona-xtrabackup
+  - percona-xtrabackup-24
   - percona-toolkit
-
 percona_backup: false
 percona_backup_keep: 30
 percona_backup_s3bucket: ""

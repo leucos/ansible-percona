@@ -45,10 +45,17 @@
 
 - meta: flush_handlers
 
-- name: Adds Python MySQL support
+- name: Adds Python2 MySQL support
   apt:
     pkg: "python-mysqldb"
     state: present
+  ignore_errors: yes
+
+- name: Adds Python3 MySQL support
+  apt:
+    pkg: "python3-mysqldb"
+    state: present
+  ignore_errors: yes
 
 # # In this case, mysql_user will fail connecting to mysql
 # - name: Sets the root password (first attempt / failure is ok)

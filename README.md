@@ -1,3 +1,5 @@
+**MOVED TO https://github.com/devops-works/ansible-percona**
+
 # Percona server role
 
 Percona database server role
